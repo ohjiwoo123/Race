@@ -54,12 +54,21 @@ CRaceApp::CRaceApp() noexcept
 // 유일한 CRaceApp 개체입니다.
 
 CRaceApp theApp;
-
+HANDLE hOnceMutex;
 
 // CRaceApp 초기화
 
 BOOL CRaceApp::InitInstance()
-{
+{	
+	// CreateMutex 처음엔 create로 됨. 두번 째 실행 때는 open으로 됨. 
+	hOnceMutex = CreateMutex(NULL, FALSE, _T("Apple")); // 열쇠 생성
+	DWORD dw = WaitForSingleObject(hOnceMutex, 1000);	// 열쇠 기다려
+	if ( dw == WAIT_TIMEOUT)	// 
+	{
+		CloseHandle(hOnceMutex);
+		AfxMessageBox(_T("이미 다른 인스턴스가 실행중입니다."));
+		return FALSE;
+	}
 	// 애플리케이션 매니페스트가 ComCtl32.dll 버전 6 이상을 사용하여 비주얼 스타일을
 	// 사용하도록 지정하는 경우, Windows XP 상에서 반드시 InitCommonControlsEx()가 필요합니다. 
 	// InitCommonControlsEx()를 사용하지 않으면 창을 만들 수 없습니다.
@@ -131,6 +140,9 @@ BOOL CRaceApp::InitInstance()
 int CRaceApp::ExitInstance()
 {
 	//TODO: 추가한 추가 리소스를 처리합니다.
+	ReleaseMutex(hOnceMutex);
+	CloseHandle(hOnceMutex);
+
 	AfxOleTerm(FALSE);
 
 	return CWinApp::ExitInstance();

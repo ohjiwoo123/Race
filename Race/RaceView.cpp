@@ -38,7 +38,6 @@ CRaceView::CRaceView() noexcept
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	CreateMutex(NULL, FALSE, NULL);	// 핸들이 나온다. 인자 3은 남의집과 동기화 
-
 }
 
 CRaceView::~CRaceView()
