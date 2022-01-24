@@ -15,10 +15,26 @@ VOID LeaveCriticalSection(LPCRITICAL_SECTION lpCriticalSection);
 
 VOID DeleteCriticalSection(LPCRITICAL_SECTION lpCriticalSection); // 
 ```
---|Mutex(뮤텍스) | Semaphore(세마포어) | Event(이벤트)
----|------------ | -------------|-------------
-|Cell 1 | Cell 2 | 
-|Cell 1 | Cell 2 | 
+1. 뮤텍스 (Mutex)  
+1- 역할 - 한 개 자원의 소유 여부를 관리하는 동기화 객체  
+2- 목적 - 하나의 공유 자원을 보호/관라하기 위해 사용됨  
+3- 비고 - BOOL 형의 동기화 객체 (Thread의 실행 여부만을 통제)  
+4- API - CreateMutex();, OpenMutex();, ReleaseMutex();  
 
+2. 세마포어 (Semaphore)  
+1- 역할 - 사용 가능한 자원의 개수를 카운트하는 동기화 객체  
+2- 목적 - 제한된 일정 개수의 공유자원을 보호/관리하기 위해 사용됨  
+3- 비고 - int 형의 동기화 객체 (실행 가능한 Thread 개수를 관리  
+4- API - CreateSemaphore(); OpenSemaphore(); ReleaseSemaphore();  
+
+3. 이벤트 (Event)  
+1- 역할 - 어떤 사건이 일어났음을 알리는 동기화 객체  
+2- 목적 Thread 간의 통신을 위한 신호를 보내기 위해 사용됨(작업순서, 시기조정 등)  
+3- 비고 - 윈도우 메세지와 비슷한 역할의 동기화 객체  
+4- API - CreateEvent(); OpenEvent(); SetEvent(); ResetEvent();  
+`<HANDLE CreateEvent(NULL,FALSE,FALSE,NULL)>` 자동 리셋 이벤트  
+`<HANDLE CreateEvent(NULL,TRUE,TRUE,NULL)>` 수동 리셋 이벤트  
+
+---
 WaitForSingObject();  
 WaitForMultipleObjects();  
