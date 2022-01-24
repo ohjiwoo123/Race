@@ -1,5 +1,6 @@
 # Race (Critical Section, Mutex 사용)
 
+0. 크리티컬 섹션(Critical Section CS)  
 유저모드를 동기화화해서 사용하려면 Critical Section 사용  
 (일반적으로 다른 커널 객체 동기화 함수보다 빠르다고 한다.)  
 
@@ -36,5 +37,14 @@ VOID DeleteCriticalSection(LPCRITICAL_SECTION lpCriticalSection); //
 `<HANDLE CreateEvent(NULL,TRUE,TRUE,NULL)>` 수동 리셋 이벤트  
 
 ---
-WaitForSingObject();  
-WaitForMultipleObjects();  
+4. 동기화 함수  
+1- WaitForSingObject(HANDLE hHandle, DWORD dwMilliseconds);  
+ex) `<WaitForSingObject(hMutex, INFINITE);`> (hMutex 핸들이 돌아올 때까지 무기한으로 기다려라)   
+2- WaitForMultipleObjects(DWORD nCOunt, CONST HANDLE* lpHandles, BOOL fWaitAll, DWORD dwMilliseconds);  
+ex) 
+```
+// 강아지와 고양이를 기다려 
+// 핸들을 배열로 만듬
+HANDLE h[2] = { hDog,hCat };
+WaitForMultipleObjects(2,h, TRUE,INFINITE); // (인자갯수, 핸들, TRUE=전부기다려, INFINITE=될때까지기다려)
+```
